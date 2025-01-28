@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE categories SYSTEM "../dtd/Categories.dtd">
+<categories xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../xsd/Categories.xsd">
+    <category>
+        <id>CAT001</id>
+        <name>Laptops</name>
+        <description>Portable computers</description>
+    </category>
+    <category>
+        <id>CAT002</id>
+        <name>Desktops</name>
+        <description>Desktop computers</description>
+    </category>
+    <category>
+        <id>CAT003</id>
+        <name>Smartphones</name>
+        <description>Mobile phone</description>
+    </category>
+</categories>

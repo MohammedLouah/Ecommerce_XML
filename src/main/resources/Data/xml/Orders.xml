@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE orders SYSTEM "../dtd/Orders.dtd">
+<orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../xsd/Orders.xsd">
+    <order>
+        <id>O001</id>
+        <clientId>PER001</clientId>
+        <date>2024-01-25</date>
+        <status>completed</status>
+        <orderLines>
+            <orderLine>
+                <id>OL001</id>
+                <productId>P001</productId>
+                <quantity>1</quantity>
+                <unitPrice>1999.99</unitPrice>
+                <discount>0.00</discount>
+            </orderLine>
+            <orderLine>
+                <id>OL002</id>
+                <productId>P002</productId>
+                <quantity>2</quantity>
+                <unitPrice>500.00</unitPrice>
+                <discount>50.00</discount>
+            </orderLine>
+        </orderLines>
+    </order>
+</orders>

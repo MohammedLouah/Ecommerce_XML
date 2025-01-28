@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<products>
+    <product>
+        <id>P002</id>
+        <name>iMac</name>
+        <brand>Apple</brand>
+        <categoryId>CAT002</categoryId>
+        <price>500.0</price>
+        <specifications>M1 chip, 8GB RAM, 256GB SSD</specifications>
+        <stock>20</stock>
+    </product>
+    <product>
+        <id>P003</id>
+        <name>Sumsung A15</name>
+        <brand>Sumsung</brand>
+        <categoryId>CAT007</categoryId>
+        <price>1900.0</price>
+        <specifications>16GB RAM, 512GB SSD</specifications>
+        <stock>30</stock>
+    </product>
+    <product>
+        <id>P090</id>
+        <name>Sumsung A10S</name>
+        <brand>Sumsung</brand>
+        <categoryId>CAT003</categoryId>
+        <price>1700.0</price>
+        <specifications>8GB RAM, 256GB SSD</specifications>
+        <stock>10</stock>
+    </product>
+</products>

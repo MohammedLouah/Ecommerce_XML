@@ -1,0 +1,9 @@
+<!ELEMENT persons (person+)>
+        <!ELEMENT person (id, firstName, lastName, email, phone, address, role)>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT firstName (#PCDATA)>
+        <!ELEMENT lastName (#PCDATA)>
+        <!ELEMENT email (#PCDATA)>
+        <!ELEMENT phone (#PCDATA)>
+        <!ELEMENT address (#PCDATA)>
+        <!ELEMENT role (#PCDATA)>

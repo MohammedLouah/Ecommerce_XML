@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE invoices SYSTEM "../dtd/Invoices.dtd">
+<invoices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../xsd/Invoices.xsd">
+
+    <invoice>
+        <id>INV001</id>
+        <orderId>O001</orderId>
+        <date>2024-01-25</date>
+        <status>paid</status>
+    </invoice>
+</invoices>

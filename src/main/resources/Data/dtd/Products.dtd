@@ -1,0 +1,9 @@
+<!ELEMENT products (product+)>
+        <!ELEMENT product (id, name, brand, categoryId, price, specifications, stock)>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT brand (#PCDATA)>
+        <!ELEMENT categoryId (#PCDATA)>
+        <!ELEMENT price (#PCDATA)>
+        <!ELEMENT specifications (#PCDATA)>
+        <!ELEMENT stock (#PCDATA)>

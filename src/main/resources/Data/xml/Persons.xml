@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE persons SYSTEM "../dtd/Persons.dtd">
+<persons xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../xsd/Persons.xsd">
+    <person>
+        <id>PER001</id>
+        <firstName>Jean</firstName>
+        <lastName>Dupont</lastName>
+        <email>jean.dupont@example.com</email>
+        <phone>+33612345678</phone>
+        <address>123 Rue de Paris, 75001 Paris</address>
+        <role>client</role>
+    </person>
+    <person>
+        <id>PER002</id>
+        <firstName>Admin</firstName>
+        <lastName>System</lastName>
+        <email>admin@example.com</email>
+        <phone>+33687654321</phone>
+        <address>456 Avenue Admin, 75008 Paris</address>
+        <role>admin</role>
+    </person>
+</persons>

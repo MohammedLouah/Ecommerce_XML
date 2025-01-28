@@ -1,0 +1,6 @@
+<!ELEMENT invoices (invoice+)>
+        <!ELEMENT invoice (id, orderId, date, status)>
+        <!ELEMENT id (#PCDATA)>
+        <!ELEMENT orderId (#PCDATA)>
+        <!ELEMENT date (#PCDATA)>
+        <!ELEMENT status (#PCDATA)>
