@@ -23,6 +23,9 @@ public class Product {
     private double price;
 
     @XmlElement
+    private String image;
+
+    @XmlElement
     private String specifications;
 
     @XmlElement

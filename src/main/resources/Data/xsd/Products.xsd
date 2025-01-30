@@ -11,6 +11,7 @@
                             <xs:element name="brand" type="xs:string"/>
                             <xs:element name="categoryId" type="xs:string"/>
                             <xs:element name="price" type="xs:decimal"/>
+                            <xs:element name="image" type="xs:string"/>
                             <xs:element name="specifications" type="xs:string"/>
                             <xs:element name="stock" type="xs:integer"/>
                         </xs:sequence>

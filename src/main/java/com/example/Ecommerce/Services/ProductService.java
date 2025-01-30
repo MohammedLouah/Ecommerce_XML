@@ -4,17 +4,21 @@ import com.example.Ecommerce.Entities.Product;
 import com.example.Ecommerce.Exceptions.ProductAlreadyExistsException;
 import com.example.Ecommerce.Exceptions.ValidationException;
 import com.example.Ecommerce.Repositories.ProductRepository;
+import com.example.Ecommerce.Utils.XsltTransformer;
 import org.springframework.stereotype.Service;
 import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final XsltTransformer xsltTransformer;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, XsltTransformer xsltTransformer) {
         this.productRepository = productRepository;
+        this.xsltTransformer = xsltTransformer;
     }
 
     public List<Product> findAll() throws JAXBException {
@@ -46,4 +50,27 @@ public class ProductService {
             productRepository.update(product);
         }
     }
+
+    public File exportProductsToHtml() throws Exception {
+        // Chemin du fichier XML source
+        File xmlSource = new File("src/main/resources/Data/xml/Products.xml");
+
+        // Nom du template XSLT à utiliser
+        String xsltTemplate = "products"; // Assure-toi que le fichier "products-to-html.xsl" existe dans le répertoire XSLT
+
+        // Transformation en fichier HTML
+        return xsltTransformer.generateHtml(xmlSource, xsltTemplate);
+    }
+
+    public File exportProductsToPdf() throws Exception {
+        // Chemin du fichier XML source
+        File xmlSource = new File("src/main/resources/Data/xml/Products.xml");
+
+        // Nom du template XSLT-FO à utiliser
+        String xsltTemplate = "products"; // Assure-toi que le fichier "products-to-fo.xsl" existe dans le répertoire XSLT
+
+        // Transformation en fichier PDF
+        return xsltTransformer.generatePdf(xmlSource, xsltTemplate);
+    }
+
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @SpringBootApplication
 public class EcommerceApplication {
 
-	public static void main(String[] args) throws JAXBException {
+	public static void main(String[] args) throws Exception {
 		// Démarrage de l'application Spring Boot
 		ApplicationContext context = SpringApplication.run(EcommerceApplication.class, args);
 
@@ -24,8 +24,8 @@ public class EcommerceApplication {
 
 
 	}
-	private static void testProductService(ProductService productService) throws JAXBException {
-		// 1. Afficher tous les produits
+	private static void testProductService(ProductService productService) throws Exception {
+		/*// 1. Afficher tous les produits
 		System.out.println("Liste des produits :");
 		List<Product> products = productService.findAll();
 		products.forEach(System.out::println);
@@ -50,7 +50,7 @@ public class EcommerceApplication {
 
 		System.out.println("Liste des produits :");
 
-		products.forEach(System.out::println);
+		products.forEach(System.out::println);*/
 
 		/*// 3. Rechercher un produit par ID
 		System.out.println("\nRecherche d'un produit par ID :");
@@ -75,6 +75,9 @@ public class EcommerceApplication {
 		System.out.println("Produit supprimé avec succès.");
 
 		*/
+
+		//System.out.println("HTML: "+productService.exportProductsToHtml());
+		//System.out.println("PDF: "+productService.exportProductsToPdf());
 	}
 
 }

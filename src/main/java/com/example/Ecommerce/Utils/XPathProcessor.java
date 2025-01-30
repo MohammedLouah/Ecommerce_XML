@@ -56,6 +56,7 @@ public class XPathProcessor {
         product.setBrand(getElementTextContent(element, "brand"));
         product.setCategoryId(getElementTextContent(element, "categoryId"));
         product.setPrice(Double.parseDouble(getElementTextContent(element, "price")));
+        product.setImage(getElementTextContent(element, "image"));
         product.setSpecifications(getElementTextContent(element, "specifications"));
         product.setStock(Integer.parseInt(getElementTextContent(element, "stock")));
 
@@ -72,6 +73,7 @@ public class XPathProcessor {
             product.setBrand(getElementTextContent(element, "brand"));
             product.setCategoryId(getElementTextContent(element, "categoryId"));
             product.setPrice(Double.parseDouble(getElementTextContent(element, "price")));
+            product.setImage(getElementTextContent(element, "image"));
             product.setSpecifications(getElementTextContent(element, "specifications"));
             product.setStock(Integer.parseInt(getElementTextContent(element, "stock")));
             products.add(product);
