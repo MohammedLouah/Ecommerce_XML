@@ -2,6 +2,8 @@ package com.example.Ecommerce.Utils;
 
 import javax.xml.xpath.*;
 
+import com.example.Ecommerce.Entities.Order;
+import com.example.Ecommerce.Entities.OrderLine;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -87,5 +89,73 @@ public class XPathProcessor {
             return nodeList.item(0).getTextContent();
         }
         return "";
+    }
+
+
+    public List<Order> executeOrderQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Orders.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+        return convertNodesToOrders(nodes);
+    }
+
+    public Optional<Order> executeSingleOrderQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Orders.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+
+        if (nodes.getLength() == 0) {
+            return Optional.empty();
+        }
+
+        Element element = (Element) nodes.item(0);
+        Order order = new Order();
+        order.setId(getElementTextContent(element, "id"));
+        order.setClientId(getElementTextContent(element, "clientId"));
+        order.setDate(getElementTextContent(element, "date"));
+        order.setStatus(getElementTextContent(element, "status"));
+
+        // Convertir les orderLines
+        NodeList orderLineNodes = element.getElementsByTagName("orderLine");
+        List<OrderLine> orderLines = new ArrayList<>();
+        for (int i = 0; i < orderLineNodes.getLength(); i++) {
+            Element orderLineElement = (Element) orderLineNodes.item(i);
+            OrderLine orderLine = new OrderLine();
+            orderLine.setId(getElementTextContent(orderLineElement, "id"));
+            orderLine.setProductId(getElementTextContent(orderLineElement, "productId"));
+            orderLine.setQuantity(Integer.parseInt(getElementTextContent(orderLineElement, "quantity")));
+            orderLine.setDiscount(Double.parseDouble(getElementTextContent(orderLineElement, "discount")));
+            orderLines.add(orderLine);
+        }
+        order.setOrderLines(orderLines);
+
+        return Optional.of(order);
+    }
+
+    private List<Order> convertNodesToOrders(NodeList nodes) {
+        List<Order> orders = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(i);
+            Order order = new Order();
+            order.setId(getElementTextContent(element, "id"));
+            order.setClientId(getElementTextContent(element, "clientId"));
+            order.setDate(getElementTextContent(element, "date"));
+            order.setStatus(getElementTextContent(element, "status"));
+
+            // Convertir les orderLines
+            NodeList orderLineNodes = element.getElementsByTagName("orderLine");
+            List<OrderLine> orderLines = new ArrayList<>();
+            for (int j = 0; j < orderLineNodes.getLength(); j++) {
+                Element orderLineElement = (Element) orderLineNodes.item(j);
+                OrderLine orderLine = new OrderLine();
+                orderLine.setId(getElementTextContent(orderLineElement, "id"));
+                orderLine.setProductId(getElementTextContent(orderLineElement, "productId"));
+                orderLine.setQuantity(Integer.parseInt(getElementTextContent(orderLineElement, "quantity")));
+                orderLine.setDiscount(Double.parseDouble(getElementTextContent(orderLineElement, "discount")));
+                orderLines.add(orderLine);
+            }
+            order.setOrderLines(orderLines);
+
+            orders.add(order);
+        }
+        return orders;
     }
 }

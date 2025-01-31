@@ -1,12 +1,11 @@
 <!ELEMENT orders (order+)>
         <!ELEMENT order (id, clientId, date, status, orderLines)>
         <!ELEMENT orderLines (orderLine+)>
-        <!ELEMENT orderLine (id, productId, quantity, unitPrice, discount)>
+        <!ELEMENT orderLine (id, productId, quantity, discount)>
         <!ELEMENT id (#PCDATA)>
         <!ELEMENT clientId (#PCDATA)>
         <!ELEMENT date (#PCDATA)>
         <!ELEMENT status (#PCDATA)>
         <!ELEMENT productId (#PCDATA)>
         <!ELEMENT quantity (#PCDATA)>
-        <!ELEMENT unitPrice (#PCDATA)>
         <!ELEMENT discount (#PCDATA)>

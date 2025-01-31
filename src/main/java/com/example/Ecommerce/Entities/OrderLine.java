@@ -17,8 +17,5 @@ public class OrderLine {
     private int quantity;
 
     @XmlElement
-    private double unitPrice;
-
-    @XmlElement
     private double discount;
 }

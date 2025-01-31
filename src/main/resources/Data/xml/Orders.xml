@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE orders SYSTEM "../dtd/Orders.dtd">
-<orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../xsd/Orders.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<orders>
     <order>
         <id>O001</id>
         <clientId>PER001</clientId>
@@ -12,15 +10,27 @@
                 <id>OL001</id>
                 <productId>P001</productId>
                 <quantity>1</quantity>
-                <unitPrice>1999.99</unitPrice>
-                <discount>0.00</discount>
+                <discount>0.0</discount>
             </orderLine>
             <orderLine>
-                <id>OL002</id>
+                <id>OL001</id>
                 <productId>P002</productId>
                 <quantity>2</quantity>
-                <unitPrice>500.00</unitPrice>
-                <discount>50.00</discount>
+                <discount>0.0</discount>
+            </orderLine>
+        </orderLines>
+    </order>
+    <order>
+        <id>ORD123</id>
+        <clientId>CLI001</clientId>
+        <date>2025-01-26</date>
+        <status>En cours de traitement</status>
+        <orderLines>
+            <orderLine>
+                <id>OL001</id>
+                <productId>P001</productId>
+                <quantity>2</quantity>
+                <discount>20.0</discount>
             </orderLine>
         </orderLines>
     </order>

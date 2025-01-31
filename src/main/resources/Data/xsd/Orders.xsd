@@ -19,7 +19,6 @@
                                                     <xs:element name="id" type="xs:string"/>
                                                     <xs:element name="productId" type="xs:string"/>
                                                     <xs:element name="quantity" type="xs:integer"/>
-                                                    <xs:element name="unitPrice" type="xs:decimal"/>
                                                     <xs:element name="discount" type="xs:decimal"/>
                                                 </xs:sequence>
                                             </xs:complexType>

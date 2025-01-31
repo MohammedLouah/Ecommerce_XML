@@ -97,7 +97,7 @@ public class ProductRepository extends AbstractXmlRepository<Product, Products> 
     }
 
     private void validateAndWrite(Products products) throws Exception {
-        xmlValidator.validateXmlFile(new File(XML_FILE_PATH));
+        xmlValidator.validateXmlFile(new File(XML_FILE_PATH),"product");
         writeXml(products);
     }
 }
