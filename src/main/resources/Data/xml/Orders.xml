@@ -8,15 +8,21 @@
         <orderLines>
             <orderLine>
                 <id>OL001</id>
-                <productId>P001</productId>
+                <productId>P003</productId>
                 <quantity>1</quantity>
                 <discount>0.0</discount>
             </orderLine>
             <orderLine>
-                <id>OL001</id>
+                <id>OL02</id>
                 <productId>P002</productId>
                 <quantity>2</quantity>
                 <discount>0.0</discount>
+            </orderLine>
+            <orderLine>
+                <id>OL003</id>
+                <productId>P090</productId>
+                <quantity>4</quantity>
+                <discount>20</discount>
             </orderLine>
         </orderLines>
     </order>
@@ -27,10 +33,10 @@
         <status>En cours de traitement</status>
         <orderLines>
             <orderLine>
-                <id>OL001</id>
-                <productId>P001</productId>
-                <quantity>2</quantity>
-                <discount>20.0</discount>
+                <id>9e0bd3bf-3ad4-488f-bc3f-dcd3ea39594d</id>
+                <productId>P002</productId>
+                <quantity>3</quantity>
+                <discount>10.0</discount>
             </orderLine>
         </orderLines>
     </order>

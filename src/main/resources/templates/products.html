@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Produits</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: row; /* Alignement horizontal */
+            min-height: 100vh; /* Minimum hauteur de la page */
+        }
+
+        /* Styles de la Navbar */
+        .navbar {
+            width: 200px;
+            height: 100vh;
+            background-color: #808080;
+            padding: 20px;
+            color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            transition: all 0.3s ease;
+            border-radius: 0 20px 20px 0;
+        }
+        .navbar.collapsed {
+            width: 70px;
+        }
+        .navbar.collapsed .nav-item span:not(.nav-icon) {
+            display: none;
+        }
+        .navbar.collapsed h1 {
+            display: none;
+        }
+        .navbar h1 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #fff;
+        }
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            display: block;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+        .nav-icon {
+            margin-right: 20px;
+            font-size: 20px;
+        }
+        .toggle-btn {
+            position: absolute;
+            right: -15px;
+            top: 20px;
+            background-color: #D3D3D3;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-btn:hover {
+            background-color: #cbcccd;
+        }
+
+        /* Style du contenu */
+        .content {
+            margin-left: 240px; /* Ajuste cette valeur à la largeur de votre navbar */
+            padding: 20px;
+            flex: 1; /* Prend tout l'espace restant */
+            transition: margin-left 0.3s ease;
+        }
+        .content.expanded {
+            margin-left: 110px;
+        }
+
+        /* Styles de la liste des produits */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            height: 400px; /* Hauteur fixe pour chaque carte */
+            display: flex;
+            flex-direction: column; /* Aligne les éléments en colonne */
+            justify-content: space-between; /* Espace entre les éléments */
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            width: 100%; /* Largeur fixe pour l'image */
+            height: 250px; /* Hauteur fixe pour l'image */
+            object-fit: cover; /* Couvre l'espace sans déformer l'image */
+            border-radius: 10px;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .product-stock {
+            margin: 10px 0;
+            color: #2ecc71;
+        }
+
+        .details-container {
+            display: flex;
+            justify-content: center; /* Centre le bouton */
+            margin-top: auto; /* Pousse le bouton à la fin de la carte */
+        }
+
+        .view-details {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .view-details:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                width: 100%; /* Navbar pleine largeur sur mobile */
+                height: auto; /* Ajuster la hauteur sur mobile */
+                position: relative; /* Relative pour le positionnement mobile */
+            }
+
+            .content {
+                margin-left: 0; /* Pas de marge à gauche sur mobile */
+                padding: 10px;
+            }
+
+            .search-input {
+                width: 100%; /* Largeur 100% sur mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Inclusion de la navbar -->
+<div th:insert="fragments/navbar :: navbar"></div>
+
+<div class="content">
+    <h1>Liste des Produits</h1>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Rechercher un produit..." />
+        <button class="search-button">Rechercher</button>
+    </div>
+
+    <div class="product-container">
+        <div class="product-card" th:each="product : ${products}">
+            <img th:src="@{${product.image}}" alt="${product.name}"/>
+            <div class="product-name" th:text="${product.name}"></div>
+            <div class="product-price" th:text="${product.price + ' DH'}"></div>
+            <div class="product-stock" th:text="${product.stock > 0 ? 'En stock' : 'Rupture de stock'}"></div>
+            <div class="details-container">
+                <a class="view-details" th:href="@{/product/details/{id}(id=${product.id})}">Voir Détails</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('.navbar');
+        const content = document.querySelector('.content');
+        if (navbar) {
+            navbar.classList.toggle('collapsed');
+        }
+        if (content) {
+            content.classList.toggle('expanded');
+        }
+    }
+</script>
+
+</body>
+</html>

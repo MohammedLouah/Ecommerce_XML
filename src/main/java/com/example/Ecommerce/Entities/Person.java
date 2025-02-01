@@ -28,4 +28,7 @@ public class Person {
 
     @XmlElement
     private String role;
+
+    @XmlElement
+    private String password;
 }

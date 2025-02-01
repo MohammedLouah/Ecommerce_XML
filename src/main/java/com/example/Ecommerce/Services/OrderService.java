@@ -1,6 +1,7 @@
 package com.example.Ecommerce.Services;
 
 import com.example.Ecommerce.Entities.Order;
+import com.example.Ecommerce.Entities.OrderLine;
 import com.example.Ecommerce.Exceptions.ValidationException;
 import com.example.Ecommerce.Repositories.OrderRepository;
 import com.example.Ecommerce.Utils.XsltTransformer;
@@ -65,5 +66,27 @@ public class OrderService {
 
         // Transformation en fichier PDF
         return xsltTransformer.generatePdf(xmlSource, xsltTemplate);
+    }
+
+    // New OrderLine methods
+    public Optional<OrderLine> findOrderLineById(String orderId, String orderLineId) throws JAXBException {
+        return orderRepository.findOrderLineById(orderId, orderLineId);
+    }
+
+    public OrderLine addOrderLine(String orderId, OrderLine orderLine) throws JAXBException, ValidationException {
+        orderRepository.addOrderLine(orderId, orderLine);
+        return orderLine;
+    }
+
+    public void updateOrderLine(String orderId, OrderLine orderLine) throws JAXBException, ValidationException {
+        orderRepository.updateOrderLine(orderId, orderLine);
+    }
+
+    public void deleteOrderLine(String orderId, String orderLineId) throws JAXBException {
+        orderRepository.deleteOrderLine(orderId, orderLineId);
+    }
+
+    public List<OrderLine> findOrderLinesByProductId(String productId) throws JAXBException {
+        return orderRepository.findOrderLinesByProductId(productId);
     }
 }

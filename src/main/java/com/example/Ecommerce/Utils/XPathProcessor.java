@@ -2,6 +2,7 @@ package com.example.Ecommerce.Utils;
 
 import javax.xml.xpath.*;
 
+import com.example.Ecommerce.Entities.Invoice;
 import com.example.Ecommerce.Entities.Order;
 import com.example.Ecommerce.Entities.OrderLine;
 import lombok.AllArgsConstructor;
@@ -157,5 +158,81 @@ public class XPathProcessor {
             orders.add(order);
         }
         return orders;
+    }
+
+    public List<Invoice> executeInvoiceQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Invoices.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+        return convertNodesToInvoices(nodes);
+    }
+
+    public Optional<Invoice> executeSingleInvoiceQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Invoices.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+
+        if (nodes.getLength() == 0) {
+            return Optional.empty();
+        }
+
+        Element element = (Element) nodes.item(0);
+        Invoice invoice = new Invoice();
+        invoice.setId(getElementTextContent(element, "id"));
+        invoice.setOrderId(getElementTextContent(element, "orderId"));
+        invoice.setDate(getElementTextContent(element, "date"));
+        invoice.setStatus(getElementTextContent(element, "status"));
+
+        return Optional.of(invoice);
+    }
+
+    private List<Invoice> convertNodesToInvoices(NodeList nodes) {
+        List<Invoice> invoices = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(i);
+            Invoice invoice = new Invoice();
+            invoice.setId(getElementTextContent(element, "id"));
+            invoice.setOrderId(getElementTextContent(element, "orderId"));
+            invoice.setDate(getElementTextContent(element, "date"));
+            invoice.setStatus(getElementTextContent(element, "status"));
+            invoices.add(invoice);
+        }
+        return invoices;
+    }
+
+    public Optional<OrderLine> executeSingleOrderLineQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Orders.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+
+        if (nodes.getLength() == 0) {
+            return Optional.empty();
+        }
+
+        Element element = (Element) nodes.item(0);
+        OrderLine orderLine = new OrderLine();
+        orderLine.setId(getElementTextContent(element, "id"));
+        orderLine.setProductId(getElementTextContent(element, "productId"));
+        orderLine.setQuantity(Integer.parseInt(getElementTextContent(element, "quantity")));
+        orderLine.setDiscount(Double.parseDouble(getElementTextContent(element, "discount")));
+
+        return Optional.of(orderLine);
+    }
+
+    public List<OrderLine> executeOrderLineQuery(String xpathExpression) throws Exception {
+        Document document = documentBuilder.parse("src/main/resources/Data/xml/Orders.xml");
+        NodeList nodes = (NodeList) xpath.evaluate(xpathExpression, document, XPathConstants.NODESET);
+        return convertNodesToOrderLines(nodes);
+    }
+
+    private List<OrderLine> convertNodesToOrderLines(NodeList nodes) {
+        List<OrderLine> orderLines = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(i);
+            OrderLine orderLine = new OrderLine();
+            orderLine.setId(getElementTextContent(element, "id"));
+            orderLine.setProductId(getElementTextContent(element, "productId"));
+            orderLine.setQuantity(Integer.parseInt(getElementTextContent(element, "quantity")));
+            orderLine.setDiscount(Double.parseDouble(getElementTextContent(element, "discount")));
+            orderLines.add(orderLine);
+        }
+        return orderLines;
     }
 }

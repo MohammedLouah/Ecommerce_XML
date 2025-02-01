@@ -1,8 +1,10 @@
 package com.example.Ecommerce;
 
+import com.example.Ecommerce.Entities.Invoice;
 import com.example.Ecommerce.Entities.Order;
 import com.example.Ecommerce.Entities.OrderLine;
 import com.example.Ecommerce.Entities.Product;
+import com.example.Ecommerce.Services.InvoiceService;
 import com.example.Ecommerce.Services.OrderService;
 import com.example.Ecommerce.Services.ProductService;
 import org.springframework.boot.SpringApplication;
@@ -10,9 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class EcommerceApplication {
@@ -30,6 +35,8 @@ public class EcommerceApplication {
 		OrderService orderService = context.getBean(OrderService.class);
 		testOrderService(orderService);
 
+		InvoiceService invoiceService = context.getBean(InvoiceService.class);
+		testInvoiceService(invoiceService);
 
 	}
 	private static void testProductService(ProductService productService) throws Exception {
@@ -153,10 +160,166 @@ public class EcommerceApplication {
 		orderService.deleteOrder("ORD123");
 		System.out.println("Commande supprimée avec succès.");*/
 
+		// 7. Ajouter une ligne de commande à une commande existante
+		/*System.out.println("\nAjout d'une nouvelle ligne de commande...");
+		OrderLine newOrderLine = new OrderLine();
+		newOrderLine.setProductId("P002");
+		newOrderLine.setQuantity(3);
+		newOrderLine.setDiscount(10.0);
+
+		try {
+			OrderLine addedLine = orderService.addOrderLine("ORD123", newOrderLine);
+			System.out.println("Ligne de commande ajoutée avec succès : " + addedLine);
+		} catch (Exception e) {
+			System.err.println("Erreur lors de l'ajout de la ligne de commande : " + e.getMessage());
+		}
+
+		// 8. Rechercher une ligne de commande par ID
+		System.out.println("\nRecherche d'une ligne de commande par ID :");
+		Optional<OrderLine> foundOrderLine = orderService.findOrderLineById("ORD123", "OL001");
+		if (foundOrderLine.isPresent()) {
+			System.out.println("Ligne de commande trouvée : " + foundOrderLine.get());
+		} else {
+			System.out.println("Aucune ligne de commande trouvée avec cet ID.");
+		}
+
+		// 9. Mettre à jour une ligne de commande
+		System.out.println("\nMise à jour d'une ligne de commande...");
+		foundOrderLine.ifPresent(line -> {
+			try {
+				line.setQuantity(5);
+				line.setDiscount(15.0);
+				orderService.updateOrderLine("ORD123", line);
+				System.out.println("Ligne de commande mise à jour avec succès : " + line);
+			} catch (Exception e) {
+				System.err.println("Erreur lors de la mise à jour de la ligne de commande : " + e.getMessage());
+			}
+		});
+
+		// 10. Rechercher toutes les lignes de commande pour un produit
+		System.out.println("\nRecherche des lignes de commande pour le produit P001 :");
+		try {
+			List<OrderLine> productOrderLines = orderService.findOrderLinesByProductId("P001");
+			if (!productOrderLines.isEmpty()) {
+				System.out.println("Lignes de commande trouvées pour le produit P001 :");
+				productOrderLines.forEach(System.out::println);
+			} else {
+				System.out.println("Aucune ligne de commande trouvée pour ce produit.");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur lors de la recherche des lignes de commande : " + e.getMessage());
+		}
+
+		// 11. Supprimer une ligne de commande
+		System.out.println("\nSuppression d'une ligne de commande...");
+		try {
+			orderService.deleteOrderLine("ORD123", "OL001");
+			System.out.println("Ligne de commande supprimée avec succès.");
+		} catch (Exception e) {
+			System.err.println("Erreur lors de la suppression de la ligne de commande : " + e.getMessage());
+		}
+
+		*/
+
+
 		// Tests d'export (commentés par défaut comme dans l'exemple)
 
     //System.out.println("HTML: " + orderService.exportOrdersToHtml());
     //System.out.println("PDF: " + orderService.exportOrdersToPdf());
 
+	}
+
+	private static void testInvoiceService(InvoiceService invoiceService) throws Exception {
+		// 1. Afficher toutes les factures
+		/*System.out.println("Liste des factures :");
+		List<Invoice> invoices = invoiceService.findAll();
+		invoices.forEach(System.out::println);*/
+
+		// 2. Ajouter une nouvelle facture
+		/*System.out.println("\nAjout d'une nouvelle facture...");
+		Invoice newInvoice = new Invoice();
+		newInvoice.setId("INV123");
+		newInvoice.setOrderId("ORD123");
+		newInvoice.setDate("2025-01-31");
+		newInvoice.setStatus("pending");
+		System.out.println(newInvoice);
+
+		try {
+			Invoice createdInvoice = invoiceService.createInvoice(newInvoice);
+			System.out.println("Facture ajoutée avec succès : " + createdInvoice);
+		} catch (JAXBException e) {
+			System.err.println("Erreur lors de l'ajout de la facture : " + e.getMessage());
+		}*/
+
+		// 3. Rechercher une facture par ID
+		/*System.out.println("\nRecherche d'une facture par ID :");
+		Optional<Invoice> foundInvoice = invoiceService.findById("INV123");
+		foundInvoice.ifPresentOrElse(
+				invoice -> System.out.println("Facture trouvée : " + invoice),
+				() -> System.out.println("Aucune facture trouvée avec cet ID.")
+		);*/
+
+		// 4. Rechercher les factures d'une commande
+		/*System.out.println("\nRecherche des factures de la commande ORD123 :");
+		List<Invoice> orderInvoices = invoiceService.findByOrderId("ORD123");
+		if (orderInvoices.isEmpty()) {
+			System.out.println("Aucune facture trouvée pour cette commande.");
+		} else {
+			orderInvoices.forEach(System.out::println);
+		}*/
+
+		// 5. Mettre à jour le statut d'une facture
+		/*System.out.println("\nMise à jour du statut d'une facture...");
+		try {
+			invoiceService.updateInvoiceStatus("INV123", "paid");
+			System.out.println("Statut de la facture mis à jour avec succès");
+		} catch (Exception e) {
+			System.err.println("Erreur lors de la mise à jour du statut : " + e.getMessage());
+		}*/
+
+		// 6. Mettre à jour une facture complète
+		/*Optional<Invoice> foundInvoice;
+		foundInvoice = invoiceService.findById("INV123");
+		System.out.println("\nMise à jour d'une facture...");
+		if (foundInvoice.isPresent()) {
+			Invoice invoice = foundInvoice.get();
+			invoice.setStatus("cancelled");
+			invoice.setDate("2025-02-01");
+			try {
+				invoiceService.updateInvoice(invoice);
+				System.out.println("Facture mise à jour avec succès : " + invoice);
+			} catch (JAXBException e) {
+				System.err.println("Erreur lors de la mise à jour de la facture : " + e.getMessage());
+			}
+		}*/
+
+		// 7. Test des exports
+		/*System.out.println("\nTest des exports...");
+		try {
+			// Export de toutes les factures
+			/*File htmlFile = invoiceService.exportInvoicesToHtml();
+			System.out.println("Export HTML de toutes les factures : " + htmlFile.getAbsolutePath());
+
+			File pdfFile = invoiceService.exportInvoicesToPdf();
+			System.out.println("Export PDF de toutes les factures : " + pdfFile.getAbsolutePath());*/
+
+			// Export d'une facture spécifique
+			/*File singleHtmlFile = invoiceService.exportInvoiceToHtml("INV001");
+			System.out.println("Export HTML d'une facture spécifique : " + singleHtmlFile.getAbsolutePath());
+
+			File singlePdfFile = invoiceService.exportInvoiceToPdf("INV001");
+			System.out.println("Export PDF d'une facture spécifique : " + singlePdfFile.getAbsolutePath());
+		} catch (Exception e) {
+			System.err.println("Erreur lors de l'export : " + e.getMessage());
+		}*/
+
+		// 8. Supprimer une facture
+		/*System.out.println("\nSuppression d'une facture...");
+		try {
+			invoiceService.deleteInvoice("INV123");
+			System.out.println("Facture supprimée avec succès.");
+		} catch (JAXBException e) {
+			System.err.println("Erreur lors de la suppression de la facture : " + e.getMessage());
+		}*/
 	}
 }

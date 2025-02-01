@@ -1,0 +1,87 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+.navbar {
+    width: 200px;
+    height: 100vh;
+   // background-color: #e2e2e4;
+    background-color: #808080;
+    padding: 20px;
+    color: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    transition: all 0.3s ease;
+    border-radius: 0 20px 20px 0;
+}
+.navbar.collapsed {
+    width: 70px;
+}
+.navbar.collapsed .nav-item span:not(.nav-icon) {
+    display: none;
+}
+.navbar.collapsed h1 {
+    display: none;
+}
+.navbar h1 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #fff;
+}
+.company-logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    display: block;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+}
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(10px);
+}
+.nav-icon {
+    margin-right: 20px;
+    font-size: 20px;
+}
+.toggle-btn {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    background-color:#D3D3D3;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.toggle-btn:hover {
+    background-color: #cbcccd;
+}
+.content {
+    margin-left: 240px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+.content.expanded {
+    margin-left: 110px;
+}

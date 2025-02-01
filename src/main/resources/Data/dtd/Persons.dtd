@@ -7,3 +7,4 @@
         <!ELEMENT phone (#PCDATA)>
         <!ELEMENT address (#PCDATA)>
         <!ELEMENT role (#PCDATA)>
+        <!ELEMENT password (#PCDATA)>

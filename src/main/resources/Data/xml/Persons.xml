@@ -10,6 +10,7 @@
         <phone>+33612345678</phone>
         <address>123 Rue de Paris, 75001 Paris</address>
         <role>client</role>
+        <password>password123</password>
     </person>
     <person>
         <id>PER002</id>
@@ -19,5 +20,6 @@
         <phone>+33687654321</phone>
         <address>456 Avenue Admin, 75008 Paris</address>
         <role>admin</role>
+        <password>password123</password>
     </person>
 </persons>

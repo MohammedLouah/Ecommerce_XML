@@ -121,4 +121,79 @@ public class XsltTransformer {
             }
         }
     }
+
+    /**
+     * Génère une facture au format HTML
+     *
+     * @param invoiceId ID de la facture à transformer
+     * @return Le fichier HTML généré
+     */
+    public File generateInvoiceHtml(String invoiceId) throws TransformerException {
+        File xmlSource = new File(RESOURCES_PATH + "xml/Invoices.xml");
+        if (!xmlSource.exists()) {
+            throw new IllegalArgumentException("Le fichier Invoices.xml est introuvable");
+        }
+
+        // Création d'un fichier XML temporaire contenant uniquement la facture demandée
+        File singleInvoiceXml = extractSingleInvoice(xmlSource, invoiceId);
+        try {
+            return generateHtml(singleInvoiceXml, "invoice");
+        } finally {
+            // Nettoyage du fichier temporaire
+            singleInvoiceXml.delete();
+        }
+    }
+
+    /**
+     * Génère une facture au format PDF
+     *
+     * @param invoiceId ID de la facture à transformer
+     * @return Le fichier PDF généré
+     */
+    public File generateInvoicePdf(String invoiceId) throws TransformerException, IOException {
+        File xmlSource = new File(RESOURCES_PATH + "xml/Invoices.xml");
+        if (!xmlSource.exists()) {
+            throw new IllegalArgumentException("Le fichier Invoices.xml est introuvable");
+        }
+
+        // Création d'un fichier XML temporaire contenant uniquement la facture demandée
+        File singleInvoiceXml = extractSingleInvoice(xmlSource, invoiceId);
+        try {
+            return generatePdf(singleInvoiceXml, "invoice");
+        } finally {
+            // Nettoyage du fichier temporaire
+            singleInvoiceXml.delete();
+        }
+    }
+
+    /**
+     * Extrait une facture spécifique du fichier XML source
+     *
+     * @param sourceFile Fichier XML source contenant toutes les factures
+     * @param invoiceId ID de la facture à extraire
+     * @return Fichier XML temporaire contenant uniquement la facture demandée
+     */
+    private File extractSingleInvoice(File sourceFile, String invoiceId) throws TransformerException {
+        try {
+            // Configuration du transformer pour l'extraction
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Source xslt = new StreamSource(new File(XSLT_PATH + "extract-invoice.xsl"));
+            Transformer transformer = factory.newTransformer(xslt);
+
+            // Définition du paramètre pour l'ID de la facture
+            transformer.setParameter("invoiceId", invoiceId);
+
+            // Création du fichier temporaire
+            File tempFile = new File(TEMP_PATH + "single_invoice_" + UUID.randomUUID() + ".xml");
+            Result output = new StreamResult(tempFile);
+
+            // Transformation
+            Source xml = new StreamSource(sourceFile);
+            transformer.transform(xml, output);
+
+            return tempFile;
+        } catch (Exception e) {
+            throw new TransformerException("Échec de l'extraction de la facture : " + e.getMessage(), e);
+        }
+    }
 }

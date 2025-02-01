@@ -112,4 +112,105 @@ public class OrderRepository extends AbstractXmlRepository<Order, Orders> {
         xmlValidator.validateXmlFile(new File(XML_FILE_PATH),"order");
         writeXml(orders);
     }
+
+    // Méthodes pour gérer les OrderLines
+    public Optional<OrderLine> findOrderLineById(String orderId, String orderLineId) throws JAXBException {
+        try {
+            String xpathExpression = String.format("//order[id='%s']/orderLines/orderLine[id='%s']", orderId, orderLineId);
+            return xPathProcessor.executeSingleOrderLineQuery(xpathExpression);
+        } catch (Exception e) {
+            throw new JAXBException("Failed to find order line", e);
+        }
+    }
+
+    public void addOrderLine(String orderId, OrderLine orderLine) throws JAXBException, ValidationException {
+        try {
+            Optional<Order> orderOpt = findById(orderId);
+            if (!orderOpt.isPresent()) {
+                throw new JAXBException("Order not found with ID: " + orderId);
+            }
+
+            Order order = orderOpt.get();
+            validateOrderLine(orderLine);
+
+            if (orderLine.getId() == null) {
+                orderLine.setId(UUID.randomUUID().toString());
+            }
+
+            order.addOrderLine(orderLine);
+            update(order);
+        } catch (Exception e) {
+            throw new JAXBException("Failed to add order line", e);
+        }
+    }
+
+    public void updateOrderLine(String orderId, OrderLine updatedOrderLine) throws JAXBException, ValidationException {
+        try {
+            Optional<Order> orderOpt = findById(orderId);
+            if (!orderOpt.isPresent()) {
+                throw new JAXBException("Order not found with ID: " + orderId);
+            }
+
+            Order order = orderOpt.get();
+            validateOrderLine(updatedOrderLine);
+
+            boolean found = false;
+            for (int i = 0; i < order.getOrderLines().size(); i++) {
+                if (order.getOrderLines().get(i).getId().equals(updatedOrderLine.getId())) {
+                    order.getOrderLines().set(i, updatedOrderLine);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                throw new JAXBException("Order line not found with ID: " + updatedOrderLine.getId());
+            }
+
+            update(order);
+        } catch (Exception e) {
+            throw new JAXBException("Failed to update order line", e);
+        }
+    }
+
+    public void deleteOrderLine(String orderId, String orderLineId) throws JAXBException {
+        try {
+            Optional<Order> orderOpt = findById(orderId);
+            if (!orderOpt.isPresent()) {
+                throw new JAXBException("Order not found with ID: " + orderId);
+            }
+
+            Order order = orderOpt.get();
+            boolean removed = order.getOrderLines().removeIf(line -> line.getId().equals(orderLineId));
+
+            if (!removed) {
+                throw new JAXBException("Order line not found with ID: " + orderLineId);
+            }
+
+            update(order);
+        } catch (Exception e) {
+            throw new JAXBException("Failed to delete order line", e);
+        }
+    }
+
+    public List<OrderLine> findOrderLinesByProductId(String productId) throws JAXBException {
+        try {
+            String xpathExpression = String.format("//orderLine[productId='%s']", productId);
+            return xPathProcessor.executeOrderLineQuery(xpathExpression);
+        } catch (Exception e) {
+            throw new JAXBException("Failed to find order lines by product ID", e);
+        }
+    }
+
+    private void validateOrderLine(OrderLine orderLine) throws ValidationException {
+        if (orderLine.getProductId() == null || orderLine.getProductId().trim().isEmpty()) {
+            throw new ValidationException("Product ID cannot be empty");
+        }
+        if (orderLine.getQuantity() <= 0) {
+            throw new ValidationException("Quantity must be positive");
+        }
+        if (orderLine.getDiscount() < 0 || orderLine.getDiscount() > 100) {
+            throw new ValidationException("Discount must be between 0 and 100");
+        }
+    }
 }

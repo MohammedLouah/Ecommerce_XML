@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<div th:fragment="navbar">
+    <div class="navbar">
+        <button class="toggle-btn" onclick="toggleNavbar()">≡</button>
+        <img src="/images/img_4.png" alt="Logo Panier" class="company-logo">
+        <h1>ForShop</h1>
+        <div class="nav-item" th:onclick="'location.href=@{/dashboard}'">
+            <span class="nav-icon">
+                <img src="/images/img.png" alt="Dashboard" style="width: 35px; height: 35px;">
+            </span>
+            <span>Dashboard</span>
+        </div>
+
+        <a class="nav-item" th:href="@{/Orderlist}">
+             <span class="nav-icon">
+                <img src="/images/img_1.png" alt="Orders" style="width: 35px; height: 35px;">
+            </span>
+            <span>Orders</span>
+        </a>
+
+
+
+        <a class="nav-item" th:href="@{/categories}">
+             <span class="nav-icon">
+                <img src="/images/img_3.png" alt="Category" style="width: 35px; height: 35px;">
+            </span>
+            <span>Category</span>
+        </a>
+
+
+        <a  class="nav-item" th:href="@{/products}">
+            <span class="nav-icon">
+                <img src="/images/img_2.png" alt="Products" style="width: 35px; height: 35px;">
+            </span>
+            <span>Products</span>
+        </a>
+    </div>
+</div>
+
+
+<script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('.navbar');
+        const content = document.querySelector('.content');
+        if (navbar) {
+            navbar.classList.toggle('collapsed');
+        }
+        if (content) {
+            content.classList.toggle('expanded');
+        }
+    }
+</script>
+</body>
+</html>

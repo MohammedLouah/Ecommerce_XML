@@ -1,5 +1,6 @@
 package com.example.Ecommerce.Utils;
 
+import com.example.Ecommerce.Entities.Invoice;
 import com.example.Ecommerce.Entities.Order;
 import com.example.Ecommerce.Entities.Product;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,9 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -32,6 +35,7 @@ public class XmlValidator {
             // Chargement des schémas
             schemas.put("product", factory.newSchema(new File(XSD_BASE_PATH + "Products.xsd")));
             schemas.put("order", factory.newSchema(new File(XSD_BASE_PATH + "Orders.xsd")));
+            schemas.put("invoice", factory.newSchema(new File(XSD_BASE_PATH + "Invoices.xsd")));
             // Ajoutez d'autres schémas si nécessaire
         } catch (SAXException e) {
             throw new RuntimeException("Failed to load schemas", e);
@@ -83,6 +87,37 @@ public class XmlValidator {
     private void validateNonNegativeNumber(String fieldName, int value) throws ValidationException {
         if (value < 0) {
             throw new ValidationException(fieldName + " cannot be negative");
+        }
+    }
+
+    public void validateInvoice(Invoice invoice) throws ValidationException {
+        validateRequiredField("id", invoice.getId());
+        validateRequiredField("orderId", invoice.getOrderId());
+        validateRequiredField("date", invoice.getDate());
+        validateRequiredField("status", invoice.getStatus());
+
+        // Validation du format de la date (optionnel)
+        validateDateFormat("date", invoice.getDate());
+
+        // Validation du status (optionnel)
+        validateInvoiceStatus(invoice.getStatus());
+    }
+
+    // Méthode utilitaire pour valider le format de la date
+    private void validateDateFormat(String fieldName, String date) throws ValidationException {
+        // Vous pouvez implémenter une validation de format de date si nécessaire
+        // Par exemple, vérifier si la date est au format YYYY-MM-DD
+        if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            throw new ValidationException(fieldName + " must be in YYYY-MM-DD format");
+        }
+    }
+
+    // Méthode utilitaire pour valider le status de la facture
+    private void validateInvoiceStatus(String status) throws ValidationException {
+        // Liste des status valides
+        List<String> validStatuses = Arrays.asList("pending", "paid", "cancelled");
+        if (!validStatuses.contains(status.toLowerCase())) {
+            throw new ValidationException("Invalid invoice status. Must be one of: " + String.join(", ", validStatuses));
         }
     }
 }

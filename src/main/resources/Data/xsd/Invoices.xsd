@@ -8,7 +8,7 @@
                         <xs:sequence>
                             <xs:element name="id" type="xs:string"/>
                             <xs:element name="orderId" type="xs:string"/>
-                            <xs:element name="date" type="xs:date"/>
+                            <xs:element name="date" type="xs:string"/>
                             <xs:element name="status" type="xs:string"/>
                         </xs:sequence>
                     </xs:complexType>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Liste des Catégories</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .content {
+            margin-left: 250px; /* Ajustez cette valeur à la largeur de votre navbar */
+            padding: 20px;
+            flex: 1;
+            transition: filter 0.3s ease; /* Ajout d'une transition pour le flou */
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        a.add-category {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff5733;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+            display: none; /* Masqué par défaut */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* S'assure que la superposition est au-dessus du contenu */
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px; /* Augmente le padding */
+            border-radius: 8px; /* Coins arrondis */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+            width: 400px; /* Largeur fixe pour le formulaire */
+            text-align: center; /* Centrer le texte */
+        }
+        .form-container h3 {
+            margin-bottom: 20px; /* Espacement sous le titre */
+            color: #333;
+        }
+        .form-container label {
+            display: block; /* Étiquettes sur une nouvelle ligne */
+            margin-bottom: 5px; /* Espacement sous les étiquettes */
+            text-align: left; /* Alignement à gauche */
+        }
+        .form-container input {
+            width: calc(100% - 20px); /* Largeur pleine moins le padding */
+            padding: 10px; /* Padding interne */
+            margin-bottom: 15px; /* Espacement entre les champs */
+            border: 1px solid #ccc; /* Bordure grise */
+            border-radius: 4px; /* Coins arrondis */
+            box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+        }
+        .form-container button {
+            padding: 10px 15px; /* Padding pour les boutons */
+            background-color: #28a745; /* Couleur du bouton */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px; /* Espacement autour des boutons */
+            transition: background-color 0.3s; /* Transition pour le changement de couleur */
+        }
+        .form-container button:hover {
+            background-color: #218838; /* Couleur au survol */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .button {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .edit {
+            background-color: #28a745; /* Vert */
+        }
+        .delete {
+            background-color: #dc3545; /* Rouge */
+        }
+        .actions {
+            width: 30%; /* Largeur accrue pour la colonne Actions */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Inclusion de la navbar -->
+<div th:insert="fragments/navbar :: navbar"></div>
+
+<div class="content" id="mainContent">
+    <h2>Liste des Catégories</h2>
+
+    <a class="add-category" onclick="showForm()">Ajouter une Catégorie</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th class="actions">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td th:text="${category.description}"></td>
+            <td class="actions">
+                <a class="button edit" th:href="@{/categories/edit/{id}(id=${category.id})}">Modifier</a>
+                <a class="button delete" th:href="@{/categories/delete/{id}(id=${category.id})}" onclick="return confirm('Supprimer cette catégorie ?')">Supprimer</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="overlay" id="formOverlay">
+    <div class="form-container">
+        <h3>Ajouter une Nouvelle Catégorie</h3>
+        <form th:action="@{/categories/new}" method="post">
+            <div>
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div>
+                <label for="name">Nom:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+            <button type="submit">Enregistrer</button>
+            <button type="button" onclick="closeForm()">Annuler</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showForm() {
+        document.getElementById('formOverlay').style.display = 'flex'; // Affiche la superposition
+        document.getElementById('mainContent').style.filter = 'blur(5px)'; // Floute le contenu principal
+    }
+
+    function closeForm() {
+        document.getElementById('formOverlay').style.display = 'none'; // Masque la superposition
+        document.getElementById('mainContent').style.filter = 'none'; // Restaure le contenu principal
+    }
+
+    function toggleNavbar() {
+        const navbar = document.querySelector('.navbar');
+        const content = document.querySelector('.content');
+        if (navbar) {
+            navbar.classList.toggle('collapsed');
+        }
+        if (content) {
+            content.classList.toggle('expanded');
+        }
+    }
+</script>
+
+</body>
+</html>
